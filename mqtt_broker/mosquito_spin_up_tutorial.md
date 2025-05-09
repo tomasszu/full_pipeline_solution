@@ -13,6 +13,9 @@ allow_anonymous true
 
 ### Spin up container:
 
+
+verbose:
+
 ```bash
 docker run -it --rm --name mosquitto_local \
   -v $(pwd)/mosquitto.conf:/mosquitto/config/mosquitto.conf \
@@ -22,6 +25,16 @@ docker run -it --rm --name mosquitto_local \
 
 ```
 
+or background:
+
+```bash
+docker run --name mosquitto_local \
+  -v $(pwd)/mosquitto.conf:/mosquitto/config/mosquitto.conf \
+  -v $(pwd)/mosquitto_data:/mosquitto/data \
+  -p 1884:1884 \
+  eclipse-mosquitto
+
+```
 
 ### Test Sub and Pub:
 

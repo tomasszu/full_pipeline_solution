@@ -33,7 +33,7 @@ def main(args):
             bbox = entry["bbox"]
             #print(f"Ready for feature extraction: Track {track_id}, Shape: {image.shape}")
 
-            if check.verify_attention(bbox):
+            if check.perform_checks(track_id, bbox):
 
                 features = extractor.get_feature(image)
 

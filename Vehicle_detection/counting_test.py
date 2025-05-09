@@ -76,7 +76,6 @@ def is_point_in_attention(point, vector1, vector2):
 
     # If the cross product is positive, the point is on the same side as the frame
     return cross_product
-    #return cross_product
 
 def filter_detections(detections, vector_start, vector_end):
     indices_to_remove = []
