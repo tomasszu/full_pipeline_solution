@@ -1,0 +1,22 @@
+curl -XPUT "http://localhost:9200/vehicle_vectors" -H 'Content-Type: application/json' -d'
+{
+  "settings": {
+    "index.knn": true
+  },
+  "mappings": {
+    "properties": {
+    "vehicle_id": { "type": "integer" },
+    "feature_vector": {
+            "type": "knn_vector",
+            "dimension": 256,
+            "method": {
+              "name": "hnsw",
+              "engine": "faiss",  
+              "space_type": "cosinesimil"
+            }
+          },
+      "times_summed": { "type": "short" }
+    }
+  }
+}
+'

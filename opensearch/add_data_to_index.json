@@ -1,0 +1,12 @@
+curl -XPOST "http://localhost:9200/_bulk" -H 'Content-Type: application/json' -d'
+{ "index": { "_index": "hotels-index", "_id": "1" } }
+{ "location": [5.2, 4.4] }
+{ "index": { "_index": "hotels-index", "_id": "2" } }
+{ "location": [5.2, 3.9] }
+{ "index": { "_index": "hotels-index", "_id": "3" } }
+{ "location": [4.9, 3.4] }
+{ "index": { "_index": "hotels-index", "_id": "4" } }
+{ "location": [4.2, 4.6] }
+{ "index": { "_index": "hotels-index", "_id": "5" } }
+{ "location": [3.3, 4.5] }
+'

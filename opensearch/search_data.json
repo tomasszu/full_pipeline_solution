@@ -1,0 +1,13 @@
+curl -XPOST "http://localhost:9200/hotels-index/_search" -H 'Content-Type: application/json' -d'
+{
+  "size": 3,
+  "query": {
+    "knn": {
+      "location": {
+        "vector": [5, 4],
+        "k": 3
+      }
+    }
+  }
+}
+'
