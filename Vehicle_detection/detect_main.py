@@ -8,19 +8,21 @@ import torch
 
 from SendDetections import SendDetections
 
+import matplotlib.pyplot as plt
+
 #============================================================================= <<<<<<<<<<<<<<<<<<<<<<<<<<
 #Choose camera recording 1. to 3. or 5.
-CAM = 1
+CAM = 2
 #============================================================================= <<<<<<<<<<<<<<<<<<<<<<<<<<
 
 def detections_process(model, frame, tracker, send_detections):
     confidence_threshold = 0.6
 
     results = model(frame)[0]
-    #print(results.boxes)
+    print(results)
 
-    #DIMITRIRIOS CASE TEST
-    # reults = model.track()
+    print(frame.shape)
+    print(results.orig_img.shape)
 
     # print(results.boxes)
 
@@ -78,7 +80,7 @@ if CAM == 1:
     start, end = sv.Point(x=-500, y=292), sv.Point(x=1878, y=292)
     attention_vector1 = [[0,175],[1279,175]], ">"
     attention_vector2 = [[0,505],[1140,0]], ">"
-    cap = cv2.VideoCapture(f'cam{CAM}_cuts2.avi')
+    cap = cv2.VideoCapture(f'cam{CAM}_cuts_4fps.mp4')
 elif CAM == 2:
     start, end = sv.Point(x=-500, y=711), sv.Point(x=1878, y=198)
     cap = cv2.VideoCapture(f'cam{CAM}_cuts2.avi')

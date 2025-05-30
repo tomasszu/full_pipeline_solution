@@ -51,6 +51,10 @@ class SendFeatures:
 
         result = self.client.publish(self.mqtt_topic, json.dumps(data))
 
+        # !! DEBUG
+
+        print(f"[MQTT] sent message for track_id {data['track_id']}")
+
         if result[0] != 0:
             print(f"[MQTT] Failed to send message for track_id {data['track_id']}")
         

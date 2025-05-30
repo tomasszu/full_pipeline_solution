@@ -3,6 +3,8 @@ import numpy as np
 class CheckDetection:
     def __init__(self, cam):
 
+        self.zones = []
+
         if cam == 1:
             #start, end = sv.Point(x=-500, y=292), sv.Point(x=1878, y=292)
             self.attention_vector1 = [[0,175],[1279,175]], ">"
@@ -15,6 +17,8 @@ class CheckDetection:
             #start, end = sv.Point(x=-500, y=711), sv.Point(x=1878, y=198)
             self.attention_vector1 = [[0,120],[1279,570]], ">"
             self.attention_vector2 = [[63,0],[412,960]], "<"
+            frame_height = 960
+            frame_width = 1280
         elif cam == 3:
             #start, end = sv.Point(x=-500, y=600), sv.Point(x=1278, y=300)
             self.attention_vector1 = [[0,100],[2086,400]], ">"
@@ -23,33 +27,49 @@ class CheckDetection:
             #start, end = sv.Point(x=1600, y=200), sv.Point(x=2600, y=2500)
             self.attention_vector1 = [[0,3000],[2000,0]], ">"
             self.attention_vector2 = None
+        elif cam == "1c":
+            #start, end = sv.Point(x=-500, y=292), sv.Point(x=1878, y=292)
+            self.attention_vector1 = [[0,250],[1279,250]], ">"
+            self.attention_vector2 = [[920,1000],[541,0]], "<"
+            #------------Crop Zone definitions for EDI camera 1------------------.
+            zRows, zCols = 6, 5
+            frame_height = 960
+            frame_width = 1280
 
-        self.zones = []
         self.zone_of_detections = {}
 
-        # Calculate the width and height of each count zone based on the frame dimensions
-        zone_width = frame_width // zCols
-        zone_height = frame_height // zRows
+        if cam in [1, "1c"]:
+            # Calculate the width and height of each count zone based on the frame dimensions
+            zone_width = frame_width // zCols
+            zone_height = frame_height // zRows
 
-        # Create the zones (rectangles) and store their coordinates
-        for i in range(zRows):
-            for j in range(zCols):
-                x1 = j * zone_width
-                y1 = i * zone_height
-                x2 = (j + 1) * zone_width
-                y2 = (i + 1) * zone_height
-                if(y1 > 250 and x1 > 75 and x2 < 1200 and y1 < 700):
-                    self.zones.append((x1, y1, x2, y2))
+            # Create the zones (rectangles) and store their coordinates
+            for i in range(zRows):
+                for j in range(zCols):
+                    x1 = j * zone_width
+                    y1 = i * zone_height
+                    x2 = (j + 1) * zone_width
+                    y2 = (i + 1) * zone_height
+                    if(y1 > 250 and x1 > 75 and x2 < 1200 and y1 < 700):
+                        self.zones.append((x1, y1, x2, y2))
+
+        self.cam = cam
 
 
 
     def perform_checks(self, track_id, bbox):
         # Perform checks on the bounding box
 
+        
         # If the bounding box is in the attention area, return True
         if self.verify_attention(bbox):
-            if self.check_crop_zones(track_id, bbox):
-                # If the bounding box is in a crop zone, return True
+
+            if self.cam in [1]:
+                if self.check_crop_zones(track_id, bbox):
+                    # If the bounding box is in a crop zone, return True
+                    return True
+            else: 
+                # If the camera is not 1, we don't check crop zones
                 return True
         # If the bounding box is not in the attention area or crop zone, return False
         return False

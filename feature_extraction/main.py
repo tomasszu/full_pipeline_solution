@@ -16,7 +16,7 @@ def main(args):
 
     receiver = ReceiveDetectionsService()
     extractor = ExtractingFeatures()
-    check = CheckDetection(1)
+    check = CheckDetection("1c")
 
     if(args.mode == 'comp'):
         sender = SendFeatures(mqtt_topic="tomass/compare_features")
